@@ -1,5 +1,5 @@
 apple
-bottle
-capsicum
-cup
-football
+glass_container
+oranges
+popcorn
+water_bottle

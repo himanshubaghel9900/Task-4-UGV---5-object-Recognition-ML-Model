@@ -27,7 +27,7 @@ def preprocess(image, width, height):
 
 
 st.title("5-Object Recognition")
-st.write("Upload a photo of an apple, bottle, capsicum, cup or football.")
+st.write("Upload a photo of an apple, glass container, oranges, popcorn or water bottle.")
 
 if not MODEL_PATH.exists():
     st.error(f"Model file not found: {MODEL_PATH.name}. "

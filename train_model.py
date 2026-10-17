@@ -27,7 +27,7 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(5, activation="softmax")
 ])
 
-model.compile(optimizer="sgd", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
 model.fit(trainData, validation_data=valData, epochs=20)
 
