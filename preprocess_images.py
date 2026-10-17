@@ -10,7 +10,7 @@ CLASSES = [
     "apple",
     "glass_container",
     "oranges",
-    "paper_bag",
+    "popcorn",
     "water_bottle",
 ]
 
