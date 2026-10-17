@@ -1,76 +1,85 @@
 
 from pathlib import Path
-import numpy as np
 from PIL import Image
+import numpy as np
 
-BASE = Path(__file__).parent # refers to the current path file
+BASE = Path(__file__).parent
 DATASET = BASE / "dataset"
 
-CLASSES = ["apple", "bottle", "capsicum", "cup", "football"]
-SPLITS = ["train", "val", "test"]
-IMG_SIZE = (128, 128)
+CLASSES = [
+    "apple",
+    "glass_container",
+    "oranges",
+    "paper_bag",
+    "water_bottle",
+]
 
-def load_and_preprocess(image_path):
-    
-    with Image.open(image_path) as image:
-        image = image.convert("RGB")
-        image = image.resize(IMG_SIZE)
+IMAGE_SIZE = (160, 160)
+VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
-        
-        image_array = np.array(image, dtype=np.float32)
 
-       
-        image_array = image_array / 255.0
-
-    return image_array
-
-def load_split(split_name):
-    
+def load_and_preprocess(split):
     images = []
     labels = []
+    skipped = 0
 
     for label, class_name in enumerate(CLASSES):
-        folder = DATASET / split_name / class_name
+        folder = DATASET / split / class_name
 
         if not folder.exists():
             raise FileNotFoundError(
-                f"Missing folder: {folder}"
+                f"Missing class folder: {folder}"
             )
 
         for path in sorted(folder.iterdir()):
             if not path.is_file():
                 continue
 
+            if path.suffix.lower() not in VALID_EXTENSIONS:
+                continue
+
             try:
-                array = load_and_preprocess(path)
+                with Image.open(path) as image:
+                    image = image.convert("RGB")
+                    image = image.resize(
+                        IMAGE_SIZE,
+                        Image.Resampling.BILINEAR
+                    )
+                    array = np.asarray(image, dtype=np.float32)
+                    array = array / 255.0
+
                 images.append(array)
                 labels.append(label)
+
             except Exception as error:
-                print(f"Skipping {path.name}: {error}")
+                skipped += 1
+                print(f"Skipped {path.name}: {error}")
 
     if not images:
-        raise ValueError(
-            f"No readable images found in {split_name}"
-        )
+        raise ValueError(f"No images loaded from {split}")
 
     X = np.stack(images)
-    y = np.array(labels, dtype=np.int64)
+    y = np.asarray(labels, dtype=np.int64)
+
+    print(f"\n{split.upper()} RESULTS")
+    print("Images shape:", X.shape)
+    print("Labels shape:", y.shape)
+    print("Pixel range:", X.min(), "to", X.max())
+    print("Skipped images:", skipped)
+
+    for label, class_name in enumerate(CLASSES):
+        print(
+            f"{class_name}:",
+            int(np.sum(y == label)),
+            "images"
+        )
 
     return X, y
 
+
 if __name__ == "__main__":
-    print("Class labels:")
-    for index, name in enumerate(CLASSES):
-        print(f"{index}: {name}")
+    X_train, y_train = load_and_preprocess("train")
+    X_val, y_val = load_and_preprocess("val")
+    X_test, y_test = load_and_preprocess("test")
 
-    for split in SPLITS:
-        X, y = load_split(split)
-
-        print(f"\n{split.upper()} SET")
-        print("Images shape:", X.shape)
-        print("Labels shape:", y.shape)
-        print("Pixel range:", X.min(), "to", X.max())
-        print("Images per class:")
-
-        for index, name in enumerate(CLASSES):
-            print(f"  {name}: {np.sum(y == index)}")
+    print("\nPreprocessing completed successfully!")
