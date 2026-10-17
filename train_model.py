@@ -1,10 +1,10 @@
 import tensorflow as tf
 
-tf.random.set_seed(42) 
+tf.random.set_seed(42) #to ensure reproducibility, controls randomness
 
-trainData = tf.keras.utils.image_dataset_from_directory( "dataset/train",image_size=(128, 128), batch_size=32)
+trainData = tf.keras.utils.image_dataset_from_directory( "dataset/train",image_size=(128, 128), batch_size=30)
 
-valData = tf.keras.utils.image_dataset_from_directory("dataset/val", image_size=(128, 128), batch_size=32, shuffle=False)
+valData = tf.keras.utils.image_dataset_from_directory("dataset/val", image_size=(128, 128), batch_size=30, shuffle=False)
 
 model = tf.keras.Sequential([
     tf.keras.layers.Input(shape=(128, 128, 3)),
@@ -23,7 +23,7 @@ model = tf.keras.Sequential([
 
 model.compile(optimizer="sgd", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-model.fit(trainData, validation_data=valData, epochs=10)
+model.fit(trainData, validation_data=valData, epochs=20)
 
 model.save("object_model.keras")
 print("Training completed!")
