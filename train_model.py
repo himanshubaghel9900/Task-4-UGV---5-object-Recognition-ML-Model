@@ -6,7 +6,7 @@ tf.random.set_seed(42)
 BASE = Path(__file__).parent
 DATASET = BASE / "dataset"
 
-CLASSES = ["apple", "bottle", "capsicum", "cup", "football"]
+CLASSES = ["apple", "glass_container", "oranges", "popcorn", "water_bottle"]
 
 trainData = tf.keras.utils.image_dataset_from_directory( DATASET/"train",class_names = CLASSES, image_size=(128, 128), batch_size=30)
 
