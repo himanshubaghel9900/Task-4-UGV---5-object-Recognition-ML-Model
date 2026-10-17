@@ -1,5 +1,6 @@
 import tensorflow as tf
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 
 tf.random.set_seed(42) 
@@ -29,7 +30,31 @@ model = tf.keras.Sequential([
 
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-model.fit(trainData, validation_data=valData, epochs=20)
+history = model.fit(trainData, validation_data=valData, epochs=20)
+
+plt.plot(history.history["accuracy"], label="Training Accuracy")
+plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+
+plt.title("Training vs Validation Accuracy")
+plt.xlabel("Epochs")
+plt.ylabel("Accuracy")
+plt.legend()
+plt.grid(True)
+
+plt.savefig("accuracy_graph.png", dpi=300)
+plt.show()
+
+plt.plot(history.history["loss"], label="Training Loss")
+plt.plot(history.history["val_loss"], label="Validation Loss")
+
+plt.title("Training vs Validation Loss")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.legend()
+plt.grid(True)
+
+plt.savefig("loss_graph.png", dpi=300)
+plt.show()
 
 model.save("object_model.keras")
 
