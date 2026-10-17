@@ -1,49 +1,22 @@
-
 from pathlib import Path
-import random
-import shutil
-from PIL import Image
 
-BASE = Path(__file__).parent
-RAW = BASE / "raw_images"
-OUTPUT = BASE / "dataset"
+BASE_DIR = Path(__file__).parent
 
-CLASSES = ["apple", "bottle", "cup", "football", "capsicum"]
-random.seed(42)
+# Five object classes
+classes = ["apple", "bottle", "cup", "football", "capsicum"]
 
-for name in CLASSES:
-    source = RAW / name
+# Dataset splits
+splits = ["train", "val", "test"]
 
-    files = []
-    for file in source.iterdir():
-        if file.is_file():
-            try:
-                with Image.open(file) as img:
-                    img.verify()
-                files.append(file)
-            except Exception:
-                pass
+for split in splits:
+    for class_name in classes:
+        folder = BASE_DIR / split / class_name
+        folder.mkdir(parents=True, exist_ok=True)
 
-    random.shuffle(files)
+print("Dataset folders created successfully!")
+print(f"Dataset location: {BASE_DIR}")
 
-    if len(files) < 20:
-        print(f"ERROR: {name} has only {len(files)} valid images.")
-        raise SystemExit
-
-    splits = {
-        "train": files[:14],
-        "val": files[14:17],
-        "test": files[17:20],
-    }
-
-    for split, selected in splits.items():
-        destination = OUTPUT / split / name
-        destination.mkdir(parents=True, exist_ok=True)
-
-        for file in selected:
-            shutil.copy2(file, destination / file.name)
-
-        print(f"{split}/{name}: {len(selected)} images")
-
-print("\nDataset split completed!")
-print("Your dataset is in the 'dataset' folder.")
+for split in splits:
+    print(f"\n{split.upper()}")
+    for class_name in classes:
+        print(f"  {class_name}/")
