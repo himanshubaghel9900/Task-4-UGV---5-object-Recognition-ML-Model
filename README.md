@@ -41,7 +41,8 @@ python preprocess_image.py
 ## Outcome
 A structured, split, and preprocessed image dataset ready for machine learning model development.
 
-Preshtha - Training Code I chose a CNN (Convolutional Neural Network) because it is suitable for image classification and can learn features like shapes, colours, and patterns. The model has an input layer, two convolutional layers with ReLU activation, max pooling layers, a flatten layer, and dense layers, with Softmax in the final output layer for classifying five objects. I compiled the model using the Adam optimizer, Sparse Categorical Crossentropy loss function, and accuracy as the evaluation metric. Initially, I used SGD, but the accuracy was low, so I changed it to Adam. The validation accuracy improved in some runs, although the model still showed signs of overfitting.
+##Preshtha - Training Code 
+I chose a CNN (Convolutional Neural Network) because it is suitable for image classification and can learn features like shapes, colours, and patterns. The model has an input layer, two convolutional layers with ReLU activation, max pooling layers, a flatten layer, and dense layers, with Softmax in the final output layer for classifying five objects. I compiled the model using the Adam optimizer, Sparse Categorical Crossentropy loss function, and accuracy as the evaluation metric. Initially, I used SGD, but the accuracy was low, so I changed it to Adam. The validation accuracy improved in some runs, although the model still showed signs of overfitting.
 
 
 
