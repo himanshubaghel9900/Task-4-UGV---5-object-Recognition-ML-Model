@@ -3,12 +3,12 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-BASE = Path(__file__).parent
+BASE = Path(__file__).parent # refers to the current path file
 DATASET = BASE / "dataset"
 
 CLASSES = ["apple", "bottle", "capsicum", "cup", "football"]
 SPLITS = ["train", "val", "test"]
-IMG_SIZE = (160, 160)
+IMG_SIZE = (128, 128)
 
 def load_and_preprocess(image_path):
     

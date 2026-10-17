@@ -7,7 +7,9 @@ import tensorflow as tf
 from PIL import Image, ImageOps
 
 MODEL_PATH = Path(__file__).parent / "object_model.keras"
-CLASS_NAMES = ["apple", "bottle", "capsicum", "cup", "football"]
+CLASS_FILE = Path(__file__).parent / "class_names.txt"
+
+CLASS_NAMES = CLASS_FILE.read_text().splitlines()
 
 st.set_page_config(page_title="5-Object Recognition", page_icon="🔍")
 
