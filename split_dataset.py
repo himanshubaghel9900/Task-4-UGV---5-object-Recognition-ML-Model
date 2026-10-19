@@ -9,9 +9,9 @@ DATASET_DIR = BASE_DIR / "dataset"
 
 CLASSES = [
     "apple",
-    "glass_container",
+    "cups",
     "oranges",
-    "popcorn",
+    "paper bags",
     "water_bottle",
 ]
 
