@@ -1,5 +1,5 @@
 apple
-glass_container
+cups
 oranges
-popcorn
+paper bags
 water_bottle
