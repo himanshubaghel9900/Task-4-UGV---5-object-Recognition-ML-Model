@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 DATASET = BASE_DIR / "dataset"
 
-classes = ["apple", "glass_container", "oranges", "popcorn", "water_bottle"]
+classes = ["apple", "cups", "oranges", "paper bags", "water_bottle"]
 splits = ["train", "val", "test"]
 
 for split in splits:
